@@ -26,6 +26,12 @@ TcMigrateCmd.exe clean --whatif false
 
 ## Working with packages: Installing, upgrading, and uninstalling
 
+### List all installed packages
+
+```bash
+tcpkg list -i
+```
+
 ### Install a package with a specific version
 
 ```bash
