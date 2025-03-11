@@ -24,12 +24,18 @@ TcMigrateCmd.exe clean
 TcMigrateCmd.exe clean --whatif false
 ```
 
-## Working with packages: Installing, upgrading, and uninstalling
+## Working with packages and workloads: Installing, upgrading, and uninstalling
 
 ### List all installed packages
 
 ```bash
 tcpkg list -i
+```
+
+### List all of the installed workloads on the system
+
+```bash
+tcpkg list -t workload
 ```
 
 ### Install a package with a specific version
