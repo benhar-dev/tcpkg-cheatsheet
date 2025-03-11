@@ -32,7 +32,7 @@ TcMigrateCmd.exe clean --whatif false
 tcpkg list -i
 ```
 
-### List all of the installed workloads on the system
+### List all of the available workloads on the system
 
 ```bash
 tcpkg list -t workload
