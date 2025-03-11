@@ -17,6 +17,11 @@ in perpetuity.
 
 Further commands can be found [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_installation/15698626059.html&id=)
 
+## Installation 
+
+### Offline installation of 4026 (i.e. no internet connection)
+Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-install)
+
 ## Uninstallation
 
 ### Full Uninstallation of 4026.x
