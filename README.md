@@ -43,3 +43,15 @@ tcpkg list -t workload
 ```bash
 tcpkg install TwinCAT.XAE.PLC=3.6.16
 ```
+
+### Repairing a package
+
+```bash
+tcpkg repair twincat.xae.plc
+```
+
+### Downgrading a package
+
+```bash
+ tcpkg upgrade twincat.standard.xae=4026.13.0 --allow-downgrade
+```
