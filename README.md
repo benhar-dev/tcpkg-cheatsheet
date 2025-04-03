@@ -22,6 +22,15 @@ Further commands can be found [here](https://infosys.beckhoff.com/english.php?co
 ### Offline installation of 4026 (i.e. no internet connection)
 Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-install)
 
+### Full Migration installation of 4026.x using only CLI
+
+```bash
+# start cmd as admin
+tcpkg install TwinCAT.XAE.MigrateCli
+# once installed restart cmd as admin
+TcMigrateCmd upgrade --whatIf False
+```
+
 ## Uninstallation
 
 ### Full Uninstallation of 4026.x
