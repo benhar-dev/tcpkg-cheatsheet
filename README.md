@@ -44,6 +44,17 @@ TcMigrateCmd.exe clean
 TcMigrateCmd.exe clean --whatif false
 ```
 
+## Working with sources
+
+### List all configured sources
+```bash
+tcpkg source list
+```
+### Verify the stable source is available
+```bash
+tcpkg source verify "Beckhoff Stable Feed"
+```
+
 ## Working with packages and workloads: Installing, upgrading, and uninstalling
 
 ### List all installed packages
