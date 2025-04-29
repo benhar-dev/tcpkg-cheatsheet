@@ -44,7 +44,18 @@ tcpkg uninstall all
 You must first install the migrate tool, then use this to clean the installation. You may need to restart your PC after the first step.
 
 ```bash
+## Install the package manager from the main beckhoff website
+## Once installed, do not open the package manager from the UI.
+## Instead follow the instructions below using a CMD window
+## with admin rights.
+
+## Add the source, you will be prompted to enter your myBeckhoff password
+tcpkg source add -n "Beckhoff Stable Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "<your myBeckhoff email>"
+
+## Install the migrate tool
 tcpkg install TwinCAT.XAE.MigrateCli
+
+## -- You must now close and reopen your admin cmd window. 
 
 ## to test the uninstall
 TcMigrateCmd.exe clean
