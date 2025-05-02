@@ -71,7 +71,7 @@ tcpkg install TwinCAT.XAE.MigrateCli
 ################################
 
 ## progress with the uninstall
-TcMigrateCmd.exe clean --whatif false
+TcMigrateCmd.exe clean --whatIf False
 
 ## once done, you can restart your pc and uninstall the package manager using add/remove programs
 ```
