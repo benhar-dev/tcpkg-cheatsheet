@@ -57,8 +57,8 @@ You must first install the migrate tool, then use this to clean the installation
 ## Instead follow the instructions below using a CMD window
 ## with admin rights.
 
-## Add the source, you will be prompted to enter your myBeckhoff password
-tcpkg source add -n "Beckhoff Stable Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "<your myBeckhoff email>"
+## Add the source replacing YOUR_EMAIL_ADDRESS with your actual myBeckhoff email address.  After pressing enter you will be prompted to enter your password
+tcpkg source add -n "Beckhoff Stable Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "YOUR_EMAIL_ADDRESS"
 
 ## Install the migrate tool
 tcpkg install TwinCAT.XAE.MigrateCli
@@ -89,13 +89,13 @@ tcpkg source verify "Beckhoff Stable Feed"
 ### Typical Sources
 ```bash
 # all current packages and workloads
-tcpkg source add -n "Beckhoff Stable Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "<your myBeckhoff email>"
+tcpkg source add -n "Beckhoff Stable Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "YOUR_EMAIL_ADDRESS"
 
 # all outdated versions 
-tcpkg source add -n "Beckhoff Outdated Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/outdated/" --priority=2 -u "<your myBeckhoff email>"
+tcpkg source add -n "Beckhoff Outdated Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/outdated/" --priority=2 -u "YOUR_EMAIL_ADDRESS"
 
 # Soon to be released packages and workloads (i.e. Beta versions).   
-tcpkg source add -n "Beckhoff Testing Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/testing/" --priority=3 -u "<your myBeckhoff email>"
+tcpkg source add -n "Beckhoff Testing Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/testing/" --priority=3 -u "YOUR_EMAIL_ADDRESS"
 ```
 
 ## Working with packages and workloads: Installing, upgrading, and uninstalling
