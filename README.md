@@ -117,6 +117,11 @@ tcpkg list -t workload
 ```bash
 tcpkg install TwinCAT.XAE.PLC=3.6.16
 ```
+### Install a package without user intervention
+Add the `-y` flag. Can be mixed with other installation options.
+```bash
+tcpkg install TwinCAT.XAE.PLC -y
+```
 
 ### Repairing a package
 
