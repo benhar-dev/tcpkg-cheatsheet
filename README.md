@@ -134,3 +134,34 @@ tcpkg repair twincat.xae.plc
 ```bash
  tcpkg upgrade twincat.standard.xae=4026.13.0 --allow-downgrade
 ```
+
+## Package Management Command Comparison
+
+Here is a comparison of the TwinCAT Package Manager ( tcpkg ) commands alongside their equivalents in FreeBSD ( pkg ) and Debian-based Linux systems ( apt ).
+
+Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
+
+| **Function**                        | **TwinCAT (tcpkg)**                                        | **FreeBSD (pkg)**                                                 | **Debian (apt)**                                              |
+| ----------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------- |
+| **List all available packages**     | `tcpkg list`                                               | `pkg search`                                                      | `apt list`                                                    |
+| **List all versions of a package**  | `tcpkg list -a [PackageName]`                              | `pkg search -o [PackageName]`                                     | `apt list -a [PackageName]`                                   |
+| **List installed packages**         | `tcpkg list -i`                                            | `pkg info`                                                        | `apt list --installed`                                        |
+| **List upgradable packages**        | `tcpkg list -o`                                            | <code>pkg version -v &#124; grep '<' </code>                      | `apt list --upgradable`                                       |
+| **Show package details**            | `tcpkg show [PackageName]`                                 | `pkg info [PackageName]`                                          | `apt show [PackageName]`                                      |
+| **Install a package**               | `tcpkg install [PackageName]`                              | `pkg install [PackageName]`                                       | `apt install [PackageName]`                                   |
+| **Install specific version**        | `tcpkg install [PackageName]=[Version]`                    | Not directly supported; use Ports or specify version if available | `apt install [PackageName]=[Version]`                         |
+| **Upgrade a package**               | `tcpkg upgrade [PackageName]`                              | `pkg upgrade [PackageName]`                                       | `apt install --only-upgrade [PackageName]`                    |
+| **Upgrade all packages**            | `tcpkg upgrade all`                                        | `pkg upgrade`                                                     | `apt upgrade`                                                 |
+| **Uninstall a package**             | `tcpkg uninstall [PackageName]`                            | `pkg delete [PackageName]`                                        | `apt remove [PackageName]`                                    |
+| **Uninstall with dependencies**     | `tcpkg uninstall [PackageName] --include-dependencies`     | `pkg delete -R [PackageName]`                                     | `apt autoremove [PackageName]`                                |
+| **Add a package source/feed**       | `tcpkg source add --n=[Name] --s=[URL] --priority=[Value]` | `pkg repo` (edit `/etc/pkg/FreeBSD.conf`)                         | Add entry to `/etc/apt/sources.list` or `.list.d/` file       |
+| **Edit a package source/feed**      | `tcpkg source edit [Name] --priority=[NewValue]`           | Edit `/etc/pkg/FreeBSD.conf` manually                             | Edit corresponding `.list` file in `/etc/apt/sources.list.d/` |
+| **Enable/disable a package source** | `tcpkg source edit [Name] --enabled true/false`            | Edit `/etc/pkg/FreeBSD.conf` manually                             | Use `apt-add-repository` or comment out entries in `.list`    |
+| **Set configuration options**       | `tcpkg config set -n [Option]`                             | Not applicable                                                    | Not applicable                                                |
+| **Unset configuration options**     | `tcpkg config unset -n [Option]`                           | Not applicable                                                    | Not applicable                                                |
+
+* FreeBSD (pkg): Installing specific versions is not directly supported; use the [Ports Collection](https://docs.freebsd.org/en/books/handbook/ports/) or specify version if available.
+* Debian (apt): Specific versions can be installed with apt install [Package]=[Version] , if that version exists in your enabled repositories.
+* Package Sources/Feeds: Managing package sources in FreeBSD and Debian typically requires editing config files manually. Debian provides helper tools like
+add-apt-repository to ease the process.
+---
