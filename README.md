@@ -132,7 +132,16 @@ tcpkg repair twincat.xae.plc
 ### Downgrading a package
 
 ```bash
- tcpkg upgrade twincat.standard.xae=4026.13.0 --allow-downgrade
+tcpkg upgrade twincat.standard.xae=4026.13.0 --allow-downgrade
+```
+
+## Fault finding
+
+### Adjust logging level
+
+```bash
+# verbose
+tcpkg config set -n logLevel -v verbose
 ```
 
 ## Package Management Command Comparison
