@@ -19,10 +19,10 @@ Further commands can be found [here](https://infosys.beckhoff.com/english.php?co
 
 ## Installation 
 
-### Offline installation of 4026 (i.e. no internet connection)
-Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-install)
-
 ### Full Migration installation of 4026.x using only CLI
+|⚠️|
+|-|
+| In most instances the migration of an IPC is possible using the TwinCAT.XAE.MigrateCli.  If however this fails then look to re-image the IPC with an OS already configured for 4026.  If this is not available, then a fresh install using a blank OS is prefered.|
 
 ```bash
 ################################
@@ -99,6 +99,9 @@ TcMigrateCmd.exe clean --whatIf False
 
 ## once done, you can restart your pc and uninstall the package manager using add/remove programs
 ```
+
+### Offline installation of 4026 (i.e. no internet connection)
+Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-install)
 
 ## Working with sources
 
