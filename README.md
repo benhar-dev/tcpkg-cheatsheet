@@ -54,6 +54,8 @@ tcpkg install TwinCAT.XAE.MigrateCli
 ## progress with the upgrade
 TcMigrateCmd upgrade --whatIf False
 ```
+### Offline installation of 4026 (i.e. no internet connection)
+Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-install)
 
 ## Uninstallation
 
@@ -99,9 +101,6 @@ TcMigrateCmd.exe clean --whatIf False
 
 ## once done, you can restart your pc and uninstall the package manager using add/remove programs
 ```
-
-### Offline installation of 4026 (i.e. no internet connection)
-Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-install)
 
 ## Working with sources
 
