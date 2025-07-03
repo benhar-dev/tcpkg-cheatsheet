@@ -135,7 +135,57 @@ tcpkg repair twincat.xae.plc
 tcpkg upgrade twincat.standard.xae=4026.13.0 --allow-downgrade
 ```
 
+## Configuration
+
+### Set Visual Studio integration
+
+```bash
+# Enable a specific Visual Studio or TcXaeShell integration
+tcpkg config set -n useVS2022
+tcpkg config set -n useTcXaeShell64
+```
+
+> ℹ️ After setting, you must install the corresponding integration:
+>
+> ```bash
+> tcpkg install vs2022.ext
+> ```
+
+### Remove Visual Studio integration
+
+```bash
+# Disable a specific Visual Studio or TcXaeShell integration
+tcpkg config unset -n useVS2022
+tcpkg config unset -n useTcXaeShell64
+```
+
+> ℹ️ After unsetting, you must uninstall the corresponding integration:
+>
+> ```bash
+> tcpkg uninstall vs2022.ext
+> ```
+
+### View current configuration
+
+```bash
+tcpkg config list
+```
+
+Example output:
+```
+UseVS2017: Not configured
+UseVS2019: Not configured
+UseVS2022: Not configured
+UseTcXaeShell: True
+UseTcXaeShell64: True
+VerifySignatures: True
+```
+
 ## Fault finding
+
+Use the log file as a primary tool of fault finding.  Logs can be found here. 
+
+```C:\ProgramData\Beckhoff\TcPkg\logs```
 
 ### Adjust logging level
 
