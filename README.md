@@ -25,7 +25,16 @@ Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-instal
 ### Full Migration installation of 4026.x using only CLI
 
 ```bash
-# start cmd as admin
+## Install the package manager from the main beckhoff website.
+
+## Once installed, do not open the package manager from the UI.
+## Instead follow the instructions below using a CMD window
+## with admin rights.
+
+## Add the source replacing YOUR_EMAIL_ADDRESS with your actual myBeckhoff email address.  After pressing enter you will be prompted to enter your password
+tcpkg source add -n "Beckhoff Stable Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "YOUR_EMAIL_ADDRESS"
+
+
 tcpkg install TwinCAT.XAE.MigrateCli
 # once installed restart cmd as admin
 TcMigrateCmd upgrade --whatIf False
