@@ -17,12 +17,13 @@ in perpetuity.
 
 Further commands can be found [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_installation/15698626059.html&id=)
 
-## Installation 
+## Installation
 
 ### Full Migration installation of 4026.x using only CLI
-|⚠️|
-|-|
-| In most instances the migration of an IPC is possible using the TwinCAT.XAE.MigrateCli.  If however this fails then look to re-image the IPC with an OS already configured for 4026.  If this is not available, then a fresh install using a blank OS is prefered.|
+
+| ⚠️                                                                                                                                                                                                                                                               |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| In most instances the migration of an IPC is possible using the TwinCAT.XAE.MigrateCli. If however this fails then look to re-image the IPC with an OS already configured for 4026. If this is not available, then a fresh install using a blank OS is prefered. |
 
 ```bash
 ################################
@@ -54,7 +55,9 @@ tcpkg install TwinCAT.XAE.MigrateCli
 ## progress with the upgrade
 TcMigrateCmd upgrade --whatIf False
 ```
+
 ### Offline installation of 4026 (i.e. no internet connection)
+
 Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-install)
 
 ## Uninstallation
@@ -105,22 +108,27 @@ TcMigrateCmd.exe clean --whatIf False
 ## Working with sources
 
 ### List all configured sources
+
 ```bash
 tcpkg source list
 ```
+
 ### Verify the stable source is available
+
 ```bash
 tcpkg source verify "Beckhoff Stable Feed"
 ```
+
 ### Typical Sources
+
 ```bash
 # all current packages and workloads
 tcpkg source add -n "Beckhoff Stable Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "YOUR_EMAIL_ADDRESS"
 
-# all outdated versions 
+# all outdated versions
 tcpkg source add -n "Beckhoff Outdated Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/outdated/" --priority=2 -u "YOUR_EMAIL_ADDRESS"
 
-# Soon to be released packages and workloads (i.e. Beta versions).   
+# Soon to be released packages and workloads (i.e. Beta versions).
 tcpkg source add -n "Beckhoff Testing Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/testing/" --priority=3 -u "YOUR_EMAIL_ADDRESS"
 ```
 
@@ -143,8 +151,11 @@ tcpkg list -t workload
 ```bash
 tcpkg install TwinCAT.XAE.PLC=3.6.16
 ```
+
 ### Install a package without user intervention
+
 Add the `-y` flag. Can be mixed with other installation options.
+
 ```bash
 tcpkg install TwinCAT.XAE.PLC -y
 ```
@@ -198,6 +209,7 @@ tcpkg config list
 ```
 
 Example output:
+
 ```
 UseVS2017: Not configured
 UseVS2019: Not configured
@@ -209,9 +221,9 @@ VerifySignatures: True
 
 ## Fault finding
 
-Use the log file as a primary tool of fault finding.  Logs can be found here. 
+Use the log file as a primary tool of fault finding. Logs can be found here.
 
-```C:\ProgramData\Beckhoff\TcPkg\logs```
+`C:\ProgramData\Beckhoff\TcPkg\logs`
 
 ### Adjust logging level
 
@@ -226,7 +238,9 @@ tcpkg config set -n logLevel -v information
 
 TcPkg supports controlling a remote instance of TcPkg over SSH, allowing you to relay both commands and package downloads to a connected IPC. This is especially useful when the IPC does not have internet access, but your engineering laptop does.
 
-### Setup our Engineering TcPkg 
+![remote](./docs/images/cli-remote-ssh.png)
+
+### Setup our Engineering TcPkg
 
 In the examples below, we’ll refer to the remote IPC as MyIpc.
 You can choose any name you like, and register as many remotes as needed.
@@ -236,9 +250,11 @@ You can choose any name you like, and register as many remotes as needed.
 # the --internet-access false will use your engineering computer's internet and feeds for obtaining packages.
 tcpkg remote add -n MyIpc --host 169.254.165.127 --port 22 -u Administrator --internet-access false
 ```
+
 When prompted, enter the Administrator password and accept the SSH fingerprint.
 
 ### Installing a Package on the Remote IPC
+
 Once your remote IPC (MyIpc) is registered, you can install TwinCAT packages directly to it using:
 
 ```bash
@@ -246,17 +262,20 @@ tcpkg install TF8020.BACnet.XAR -r MyIpc
 ```
 
 What this does:
+
 - Connects to the IPC over SSH.
 - Downloads all required packages using the engineering laptop’s internet connection.
 - Transfers the packages to the IPC.
 - Installs them on the IPC via its local TcPkg.
 
 You’ll be prompted to confirm before installation begins:
+
 ```bash
 Continue? (Y/N): Y
 ```
 
 Expected output:
+
 ```bash
 Package(s) installed:
 TF8020.BACnet.XAR 1.0.4
@@ -265,9 +284,10 @@ TwinCAT.XAR.BACnet 2.1.6
 
 ### Troubleshooting a remote connection
 
-TcPkg uses SSH to remote control the second instance.  If you are unable to add a remote, then check the following. 
+TcPkg uses SSH to remote control the second instance. If you are unable to add a remote, then check the following.
 
 #### Check SSH Access via Command Prompt
+
 Open Command Prompt and run:
 
 ```bash
@@ -279,10 +299,10 @@ You’ll be prompted for the Administrator password.
 
 #### Errors Connection Errors
 
-The default password for a Beckhoff IPC is too small to be used for SSH.  Therefore you must change your IPC's password first so something secure. 
+The default password for a Beckhoff IPC is too small to be used for SSH. Therefore you must change your IPC's password first so something secure.
 
-You will be told ```Permission denied, please try again.``` and ```The password does not meet the password policy requirements. Check the minimum password length, password complexity and
-password history requirements.``` if your password is too short.
+You will be told `Permission denied, please try again.` and `The password does not meet the password policy requirements. Check the minimum password length, password complexity and
+password history requirements.` if your password is too short.
 
 ## Package Management Command Comparison
 
@@ -309,8 +329,9 @@ Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
 | **Set configuration options**       | `tcpkg config set -n [Option]`                             | Not applicable                                                    | Not applicable                                                |
 | **Unset configuration options**     | `tcpkg config unset -n [Option]`                           | Not applicable                                                    | Not applicable                                                |
 
-* FreeBSD (pkg): Installing specific versions is not directly supported; use the [Ports Collection](https://docs.freebsd.org/en/books/handbook/ports/) or specify version if available.
-* Debian (apt): Specific versions can be installed with apt install [Package]=[Version] , if that version exists in your enabled repositories.
-* Package Sources/Feeds: Managing package sources in FreeBSD and Debian typically requires editing config files manually. Debian provides helper tools like
-add-apt-repository to ease the process.
+- FreeBSD (pkg): Installing specific versions is not directly supported; use the [Ports Collection](https://docs.freebsd.org/en/books/handbook/ports/) or specify version if available.
+- Debian (apt): Specific versions can be installed with apt install [Package]=[Version] , if that version exists in your enabled repositories.
+- Package Sources/Feeds: Managing package sources in FreeBSD and Debian typically requires editing config files manually. Debian provides helper tools like
+  add-apt-repository to ease the process.
+
 ---
