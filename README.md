@@ -218,7 +218,71 @@ Use the log file as a primary tool of fault finding.  Logs can be found here.
 ```bash
 # verbose
 tcpkg config set -n logLevel -v verbose
+# information
+tcpkg config set -n logLevel -v information
 ```
+
+## Remote control
+
+TcPkg supports controlling a remote instance of TcPkg over SSH, allowing you to relay both commands and package downloads to a connected IPC. This is especially useful when the IPC does not have internet access, but your engineering laptop does.
+
+### Setup our Engineering TcPkg 
+
+In the examples below, we’ll refer to the remote IPC as MyIpc.
+You can choose any name you like, and register as many remotes as needed.
+
+```bash
+# replace 169.254.165.127 with your ipc's ip address
+# the --internet-access false will use your engineering computer's internet and feeds for obtaining packages.
+tcpkg remote add -n MyIpc --host 169.254.165.127 --port 22 -u Administrator --internet-access false
+```
+When prompted, enter the Administrator password and accept the SSH fingerprint.
+
+### Installing a Package on the Remote IPC
+Once your remote IPC (MyIpc) is registered, you can install TwinCAT packages directly to it using:
+
+```bash
+tcpkg install TF8020.BACnet.XAR -r MyIpc
+```
+
+What this does:
+- Connects to the IPC over SSH.
+- Downloads all required packages using the engineering laptop’s internet connection.
+- Transfers the packages to the IPC.
+- Installs them on the IPC via its local TcPkg.
+
+You’ll be prompted to confirm before installation begins:
+```bash
+Continue? (Y/N): Y
+```
+
+Expected output:
+```bash
+Package(s) installed:
+TF8020.BACnet.XAR 1.0.4
+TwinCAT.XAR.BACnet 2.1.6
+```
+
+### Troubleshooting a remote connection
+
+TcPkg uses SSH to remote control the second instance.  If you are unable to add a remote, then check the following. 
+
+#### Check SSH Access via Command Prompt
+Open Command Prompt and run:
+
+```bash
+# Replace 169.254.165.127 with your target’s IP address.
+ssh Administrator@169.254.165.127
+```
+
+You’ll be prompted for the Administrator password.
+
+#### Errors Connection Errors
+
+The default password for a Beckhoff IPC is too small to be used for SSH.  Therefore you must change your IPC's password first so something secure. 
+
+You will be told ```Permission denied, please try again.``` and ```The password does not meet the password policy requirements. Check the minimum password length, password complexity and
+password history requirements.``` if your password is too short.
 
 ## Package Management Command Comparison
 
