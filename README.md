@@ -234,6 +234,10 @@ tcpkg config set -n logLevel -v verbose
 tcpkg config set -n logLevel -v information
 ```
 
+If you are looking to fault find TwinCAT.XAE.MigrateCli, then note, the log files for this are stored here.
+
+```C:\ProgramData\Beckhoff\TcMigrateCmd```
+
 ## Remote control
 
 TcPkg supports controlling a remote instance of TcPkg over SSH, allowing you to relay both commands and package downloads to a connected IPC. This is especially useful when the IPC does not have internet access, but your engineering laptop does.
