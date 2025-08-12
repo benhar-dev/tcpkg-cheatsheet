@@ -56,6 +56,16 @@ tcpkg install TwinCAT.XAE.MigrateCli
 TcMigrateCmd upgrade --whatIf False
 ```
 
+> [!IMPORTANT]
+> If you are migrating an IPC and the final step fails with "TwinCAT software, which was not installed via the TwinCAT Package Manager, was found on this system". You can try the same command with the ```--prepCheck``` flag.
+
+```
+## replacement step for IPC's showing warning
+TcMigrateCmd --prepCheck --whatIf False
+```
+
+If this sill fails, then a new image may be required. 
+
 ### Offline installation of 4026 (i.e. no internet connection)
 
 Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-install)
@@ -339,3 +349,4 @@ Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
   add-apt-repository to ease the process.
 
 ---
+
