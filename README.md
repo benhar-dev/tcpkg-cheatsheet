@@ -17,6 +17,10 @@ in perpetuity.
 
 Further commands can be found [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_installation/15698626059.html&id=)
 
+
+<details>
+<summary>Installation</summary>
+  
 ## Installation
 
 ### Full Migration installation of 4026.x using only CLI
@@ -56,8 +60,7 @@ tcpkg install TwinCAT.XAE.MigrateCli
 TcMigrateCmd upgrade --whatIf False
 ```
 
-> [!IMPORTANT]
-> If you are migrating an IPC and the final step fails with "TwinCAT software, which was not installed via the TwinCAT Package Manager, was found on this system". You can try the same command with the ```--prepCheck``` flag.
+If you are migrating an IPC and the final step fails with "TwinCAT software, which was not installed via the TwinCAT Package Manager, was found on this system". You can try the same command with the ```--prepCheck``` flag.
 
 ```
 ## replacement step for IPC's showing warning
@@ -69,6 +72,10 @@ If this sill fails, then a new image may be required.
 ### Offline installation of 4026 (i.e. no internet connection)
 
 Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-install)
+
+</details>
+<details>
+<summary>Uninstallation</summary>
 
 ## Uninstallation
 
@@ -115,6 +122,10 @@ TcMigrateCmd.exe clean --whatIf False
 ## once done, you can restart your pc and uninstall the package manager using add/remove programs
 ```
 
+</details>
+<details>
+<summary>Working with sources</summary>
+
 ## Working with sources
 
 ### List all configured sources
@@ -141,6 +152,9 @@ tcpkg source add -n "Beckhoff Outdated Feed" -s "https://public.tcpkg.beckhoff-c
 # Soon to be released packages and workloads (i.e. Beta versions).
 tcpkg source add -n "Beckhoff Testing Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/testing/" --priority=3 -u "YOUR_EMAIL_ADDRESS"
 ```
+</details>
+<details>
+<summary>Working with packages and workloads</summary>
 
 ## Working with packages and workloads: Installing, upgrading, and uninstalling
 
@@ -182,7 +196,11 @@ tcpkg repair twincat.xae.plc
 tcpkg upgrade twincat.standard.xae=4026.13.0 --allow-downgrade
 ```
 
-## Configuration
+</details>
+<details>
+<summary>Tcpkg Configuration</summary>
+
+## Tcpkg Configuration
 
 ### Set Visual Studio integration
 
@@ -229,6 +247,10 @@ UseTcXaeShell64: True
 VerifySignatures: True
 ```
 
+</details>
+<details>
+<summary>Fault finding</summary>
+
 ## Fault finding
 
 Use the log file as a primary tool of fault finding. Logs can be found here.
@@ -247,6 +269,10 @@ tcpkg config set -n logLevel -v information
 If you are looking to fault find TwinCAT.XAE.MigrateCli, then note, the log files for this are stored here.
 
 ```C:\ProgramData\Beckhoff\TcMigrateCmd```
+
+</details>
+<details>
+<summary>Remote control</summary>
 
 ## Remote control
 
@@ -318,6 +344,10 @@ The default password for a Beckhoff IPC is too small to be used for SSH. Therefo
 You will be told `Permission denied, please try again.` and `The password does not meet the password policy requirements. Check the minimum password length, password complexity and
 password history requirements.` if your password is too short.
 
+</details>
+<details>
+<summary>Package Management Command Comparison</summary>
+
 ## Package Management Command Comparison
 
 Here is a comparison of the TwinCAT Package Manager ( tcpkg ) commands alongside their equivalents in FreeBSD ( pkg ) and Debian-based Linux systems ( apt ).
@@ -348,5 +378,8 @@ Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
 - Package Sources/Feeds: Managing package sources in FreeBSD and Debian typically requires editing config files manually. Debian provides helper tools like
   add-apt-repository to ease the process.
 
+</details>
+
 ---
+
 
