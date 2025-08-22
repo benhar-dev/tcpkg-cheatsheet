@@ -184,6 +184,12 @@ Add the `-y` flag. Can be mixed with other installation options.
 tcpkg install TwinCAT.XAE.PLC -y
 ```
 
+### Listing dependency of a package
+
+```
+tcpkg resolve TwinCAT.Standard.Xae=4026.14 --dependency-tree
+```
+
 ### Repairing a package
 
 ```bash
@@ -381,5 +387,6 @@ Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
 </details>
 
 ---
+
 
 
