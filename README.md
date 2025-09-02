@@ -64,7 +64,7 @@ If you are migrating an IPC and the final step fails with "TwinCAT software, whi
 
 ```
 ## replacement step for IPC's showing warning
-TcMigrateCmd --prepCheck --whatIf False
+TcMigrateCmd upgrade --prepCheck --whatIf False
 ```
 
 If this sill fails, then a new image may be required. 
@@ -387,6 +387,7 @@ Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
 </details>
 
 ---
+
 
 
 
