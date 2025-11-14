@@ -143,14 +143,17 @@ tcpkg source verify "Beckhoff Stable Feed"
 ### Typical Sources
 
 ```bash
-# all current packages and workloads
-tcpkg source add -n "Beckhoff Stable Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "YOUR_EMAIL_ADDRESS"
+# "Beckhoff Stable Feed" | all current packages and workloads
+tcpkg source add -n Stable -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "YOUR_EMAIL_ADDRESS"
 
-# all outdated versions
-tcpkg source add -n "Beckhoff Outdated Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/outdated/" --priority=2 -u "YOUR_EMAIL_ADDRESS"
+# "Beckhoff Outdated Feed" | all outdated versions
+tcpkg source add -n Outdated -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/outdated/" --priority=2 -u "YOUR_EMAIL_ADDRESS"
 
-# Soon to be released packages and workloads (i.e. Beta versions).
-tcpkg source add -n "Beckhoff Testing Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/testing/" --priority=3 -u "YOUR_EMAIL_ADDRESS"
+# "Beckhoff Testing Feed" | Soon to be released packages and workloads (i.e. Beta versions).
+tcpkg source add -n Testing -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/testing/" --priority=3 -u "YOUR_EMAIL_ADDRESS"
+
+# "Beckhoff Preview Feed" | Feature testing feed - Packages that aren’t planned to auto-release like in the Testing feed. (i.e. Preiiew Beta versions).
+tcpkg source add -n Preview -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/preview/" --priority=4 -u "YOUR_EMAIL_ADDRESS"
 ```
 </details>
 <details>
@@ -387,6 +390,7 @@ Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
 </details>
 
 ---
+
 
 
 
