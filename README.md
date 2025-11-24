@@ -16,10 +16,6 @@ always subject to change, revision, and rethinking at any time. Please do not ho
 in perpetuity.
 
 Further commands can be found [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_installation/15698626059.html&id=)
-
-
-<details>
-<summary>Installation</summary>
   
 ## Installation
 
@@ -73,9 +69,7 @@ If this sill fails, then a new image may be required.
 
 Notes can be found [here...](https://github.com/benhar-dev/tc4026-offline-install)
 
-</details>
-<details>
-<summary>Uninstallation</summary>
+---
 
 ## Uninstallation
 
@@ -122,9 +116,125 @@ TcMigrateCmd.exe clean --whatIf False
 ## once done, you can restart your pc and uninstall the package manager using add/remove programs
 ```
 
-</details>
-<details>
-<summary>Working with sources</summary>
+### Uninstallation of 4026.x following a failed uninstal / upgrade
+
+There are some instances where every part of 4026 needs to be completley removed following a failed uninstallation or upgrade, which may have left the system in an unknown state.
+
+Copy the code below to a new ```TotalUninstall.bat``` file and execute as administrator. 
+```bash
+<# : #
+@echo off
+net session >NUL 2>&1
+if '%errorlevel%' NEQ '0' (goto U)else (goto A)
+:U
+  powershell -nol -nop -ex bypass -c " Start-Process -wai -v RunAs -f cmd -a \"/c \"\" cd /d \"\"%CD% \"\" ^&^& \"\"%~f0\"\" \" "
+    exit /B
+:A
+    pushd "%cd%"
+    cd /d "%~dp0"
+
+cd %~dp0 && powershell -nol -nop -ex bypass -c "iex $($PSScriptName='%~nx0';$argsStrg='%argsStrg%';type '%~dpf0' -raw)" && endlocal && goto:eof
+#>
+try { Stop-Process -Name "TcSysUI" -Recurse -Force } catch { }
+$OSArch = (Get-CimInstance -ClassName CIM_OperatingSystem).OSArchitecture
+$registryPaths = if ($OSArch -match "64") {
+    @(
+        "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall",
+        "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall"
+    )
+} else {
+    @("HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall")
+}
+$installedPackagesReg = @()
+foreach ($path in $registryPaths) {
+    $packages = Get-ItemProperty "$path\*" | Where-Object {
+        (($_.InstallSource -match 'TcPkg') -or ($_.InstallSource -match 'Package Cache') -or ($_.BundleCachePath -match 'Package Cache') -or ($_.SystemComponent -match 1)) -and ($_.Publisher -match 'Beckhoff')
+    }
+    foreach ($package in $packages) {
+        $installedPackagesReg += $package
+        if ($package.DisplayName -eq "Beckhoff TwinCAT Prep") {
+            $PrepInReg = $true
+        }
+	if ($package.DisplayName -eq "Beckhoff TwinCAT XAR NdisDriver x64") {
+            $NdisInReg = $true
+        }
+	if ($package.DisplayName -eq "Beckhoff TwinCAT XAR VirtualMp") {
+            $MpInReg = $true
+        }
+    }
+}
+$installedPackagesData = Get-WmiObject -Class Win32_Product | Where-Object {
+    $_.InstallSource -match 'TcPkg'
+} | Select-Object IdentifyingNumber, Name, InstallSource
+$PrepInDatabase = $installedPackagesData | Where-Object { $_.Name -eq "Beckhoff TwinCAT Prep" }
+if (!$PrepInReg -and !$PrepInDatabase) {
+    Write-host "No TwinCAT.Prep package found. Please repair/install the package with 'tcpkg repair TwinCAT.Prep' or 'tcpkg install TwinCAT.Prep' in the command line and try again !" -ForegroundColor red
+    pause
+    exit
+}
+$NdisInDatabase = $installedPackagesData | Where-Object { $_.Name -eq "Beckhoff TwinCAT XAR NdisDriver x64" }
+$MpInDatabase = $installedPackagesData | Where-Object { $_.Name -eq "Beckhoff TwinCAT XAR VirtualMp" }
+if ((!$NdisInReg -or !$NdisInDatabase) -and ($MpInReg -or  $MpInDatabase)) {
+    Write-host "No TwinCAT.XAR.NdisDriver package found. Please repair/install the package with 'tcpkg repair TwinCAT.XAR.NdisDriver' or 'tcpkg install TwinCAT.XAR.NdisDriver'  in the command line and try again !" -ForegroundColor red
+    pause
+    exit
+}
+foreach($package in $installedPackagesReg)
+{
+    if (($package.DisplayName -ne "Beckhoff TwinCAT Prep") -and ($package.DisplayName -ne "Beckhoff TwinCAT XAR NdisDriver x64")){
+        if ($package.QuietUninstallString){
+            $UninstallString = "$($package.QuietUninstallString)"
+        } else {
+            $UninstallString = "$($package.UninstallString -replace '/I', '/X') /qn /norestart" #add REMOVE="ALL"
+        }
+        $Name = $package.DisplayName
+        Write-host "Uninstalling $Name..."
+        $processArgs = "/c " + $UninstallString
+        Start-Process -FilePath cmd.exe -ArgumentList $processArgs -Wait -NoNewWindow
+    }elseif($package.Name -eq "Beckhoff TwinCAT Prep"){
+        if ($package.QuietUninstallString){
+            $UninstallString = "$($package.QuietUninstallString)"
+        } else {
+            $UninstallString = "$($package.UninstallString -replace '/I', '/X') /qn /norestart"
+        }
+        $UninstallPrepRegStr = "/c " + $UninstallString
+    }elseif($package.Name -eq "Beckhoff TwinCAT XAR NdisDriver x64"){
+        if ($package.QuietUninstallString){
+            $UninstallString = "$($package.QuietUninstallString)"
+        } else {
+            $UninstallString = "$($package.UninstallString -replace '/I', '/X') /qn /norestart"
+        }
+        $UninstallNdisRegStr = "/c " + $UninstallString
+    }
+}
+$installedPackagesData | ForEach-Object -Process {
+    if($_.Name -match "Beckhoff") {
+        if(($_.Name -ne  "Beckhoff TwinCAT Prep") -and ($_.Name -ne  "Beckhoff TwinCAT XAR NdisDriver x64")){
+            $Name = $_.Name
+            $GUID = $_.IdentifyingNumber
+            Write-Host "Uninstalling $Name..."
+            Start-Process -FilePath msiexec.exe -ArgumentList "/X$GUID /qn /norestart" -Wait -NoNewWindow
+        }elseif($_.Name -eq "Beckhoff TwinCAT XAR NdisDriver x64"){
+            $UninstallNdisDataGuid = $_.IdentifyingNumber
+        }elseif($_.Name -eq "Beckhoff TwinCAT Prep"){
+            $UninstallPrepDataGuid = $_.IdentifyingNumber
+        }
+   }
+}
+if($NdisInReg){
+   Write-Host "Uninstalling Beckhoff TwinCAT XAR NdisDriver x64..."
+   try { Start-Process -FilePath cmd.exe -ArgumentList "$UninstallNdisRegStr" -Wait -NoNewWindow } catch { }
+   try { Start-Process -FilePath msiexec.exe -ArgumentList "/X$UninstallNdisDataGuid /qn /norestart" -Wait -NoNewWindow } catch { } 
+} 
+Write-Host "Uninstalling Beckhoff TwinCAT Prep..."
+try { Start-Process -FilePath cmd.exe -ArgumentList "$UninstallPrepRegStr" -Wait -NoNewWindow } catch { }
+try { Start-Process -FilePath msiexec.exe -ArgumentList "/X$UninstallPrepDataGuid /qn /norestart" -Wait -NoNewWindow } catch { }  
+try { Remove-Item "C:\ProgramData\Beckhoff\TcPkg\lib\*" -Recurse -Force } catch { }
+write-host "All found Packages are uninstalled"  -ForegroundColor green
+pause
+```
+
+---
 
 ## Working with sources
 
@@ -152,9 +262,8 @@ tcpkg source add -n "Beckhoff Outdated Feed" -s "https://public.tcpkg.beckhoff-c
 # Soon to be released packages and workloads (i.e. Beta versions).
 tcpkg source add -n "Beckhoff Testing Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/testing/" --priority=3 -u "YOUR_EMAIL_ADDRESS"
 ```
-</details>
-<details>
-<summary>Working with packages and workloads</summary>
+
+---
 
 ## Working with packages and workloads: Installing, upgrading, and uninstalling
 
@@ -202,9 +311,7 @@ tcpkg repair twincat.xae.plc
 tcpkg upgrade twincat.standard.xae=4026.13.0 --allow-downgrade
 ```
 
-</details>
-<details>
-<summary>Tcpkg Configuration</summary>
+---
 
 ## Tcpkg Configuration
 
@@ -253,9 +360,7 @@ UseTcXaeShell64: True
 VerifySignatures: True
 ```
 
-</details>
-<details>
-<summary>Fault finding</summary>
+---
 
 ## Fault finding
 
@@ -276,9 +381,7 @@ If you are looking to fault find TwinCAT.XAE.MigrateCli, then note, the log file
 
 ```C:\ProgramData\Beckhoff\TcMigrateCmd```
 
-</details>
-<details>
-<summary>Remote control</summary>
+---
 
 ## Remote control
 
@@ -350,9 +453,7 @@ The default password for a Beckhoff IPC is too small to be used for SSH. Therefo
 You will be told `Permission denied, please try again.` and `The password does not meet the password policy requirements. Check the minimum password length, password complexity and
 password history requirements.` if your password is too short.
 
-</details>
-<details>
-<summary>Package Management Command Comparison</summary>
+---
 
 ## Package Management Command Comparison
 
@@ -387,6 +488,7 @@ Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
 </details>
 
 ---
+
 
 
 
