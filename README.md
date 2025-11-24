@@ -40,7 +40,7 @@ Further commands can be found [here](https://infosys.beckhoff.com/english.php?co
 ## with admin rights.
 
 ## Add the source replacing YOUR_EMAIL_ADDRESS with your actual myBeckhoff email address.  After pressing enter you will be prompted to enter your password
-tcpkg source add -n "Beckhoff Stable Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "YOUR_EMAIL_ADDRESS"
+tcpkg source add -n Stable -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "YOUR_EMAIL_ADDRESS"
 
 ## Install the migrate tool
 tcpkg install TwinCAT.XAE.MigrateCli
@@ -98,7 +98,7 @@ You must first install the migrate tool, then use this to clean the installation
 ## with admin rights.
 
 ## Add the source replacing YOUR_EMAIL_ADDRESS with your actual myBeckhoff email address.  After pressing enter you will be prompted to enter your password
-tcpkg source add -n "Beckhoff Stable Feed" -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "YOUR_EMAIL_ADDRESS"
+tcpkg source add -n Stable -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/stable/" --priority=1 -u "YOUR_EMAIL_ADDRESS"
 
 ## Install the migrate tool
 tcpkg install TwinCAT.XAE.MigrateCli
@@ -247,7 +247,7 @@ tcpkg source list
 ### Verify the stable source is available
 
 ```bash
-tcpkg source verify "Beckhoff Stable Feed"
+tcpkg source verify Stable
 ```
 
 ### Typical Sources
@@ -262,7 +262,7 @@ tcpkg source add -n Outdated -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/
 # "Beckhoff Testing Feed" | Soon to be released packages and workloads (i.e. Beta versions).
 tcpkg source add -n Testing -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/testing/" --priority=3 -u "YOUR_EMAIL_ADDRESS"
 
-# "Beckhoff Preview Feed" | Feature testing feed - Packages that aren’t planned to auto-release like in the Testing feed. (i.e. Preiiew Beta versions).
+# "Beckhoff Preview Feed" | Feature testing feed - Packages that aren’t planned to auto-release like in the Testing feed. (i.e. Preview Beta versions).
 tcpkg source add -n Preview -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/feeds/preview/" --priority=4 -u "YOUR_EMAIL_ADDRESS"
 ```
 
@@ -491,6 +491,7 @@ Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
 </details>
 
 ---
+
 
 
 
