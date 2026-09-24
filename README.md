@@ -16,7 +16,21 @@ always subject to change, revision, and rethinking at any time. Please do not ho
 in perpetuity.
 
 Further commands can be found [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_installation/15698626059.html&id=)
-  
+
+## Troubleshooting
+
+### Check of consistancy
+
+```bash
+tcpkg check -c
+```
+
+### Repair inconsistancy
+
+```bash
+tcpkg repair --all-dependencies
+```
+
 ## Installation
 
 ### Full Migration installation of 4026.x using only CLI
@@ -35,8 +49,7 @@ Further commands can be found [here](https://infosys.beckhoff.com/english.php?co
 
 ## Install the package manager from the main beckhoff website.
 
-## Once installed, do not open the package manager from the UI.
-## Instead follow the instructions below using a CMD window
+## Follow the instructions below using a CMD window
 ## with admin rights.
 
 ## Add the source replacing YOUR_EMAIL_ADDRESS with your actual myBeckhoff email address.  After pressing enter you will be prompted to enter your password
@@ -55,15 +68,6 @@ tcpkg install TwinCAT.XAE.MigrateCli
 ## progress with the upgrade
 TcMigrateCmd upgrade --whatIf False
 ```
-
-If you are migrating an IPC and the final step fails with "TwinCAT software, which was not installed via the TwinCAT Package Manager, was found on this system". You can try the same command with the ```--prepCheck``` flag.
-
-```
-## replacement step for IPC's showing warning
-TcMigrateCmd upgrade --prepCheck --whatIf False
-```
-
-If this sill fails, then a new image may be required. 
 
 ### Offline installation of 4026 (i.e. no internet connection)
 
@@ -128,7 +132,7 @@ tcpkg source list
 ### Verify the stable source is available
 
 ```bash
-tcpkg source verify Stable
+tcpkg source verify "Beckhoff Stable Feed"
 ```
 
 ### Typical Sources
@@ -151,13 +155,19 @@ tcpkg source add -n Preview -s "https://public.tcpkg.beckhoff-cloud.com/api/v1/f
 
 ## Working with packages and workloads: Installing, upgrading, and uninstalling
 
-### List all installed packages
+### List all installed packages and workloads
 
 ```bash
 tcpkg list -i
 ```
 
-### List all of the available workloads on the system
+### List all installed workloads
+
+```bash
+tcpkg list -i -t workload
+```
+
+### List all of the available workloads of the feeds
 
 ```bash
 tcpkg list -t workload
@@ -187,6 +197,12 @@ tcpkg resolve TwinCAT.Standard.Xae=4026.14 --dependency-tree
 
 ```bash
 tcpkg repair twincat.xae.plc
+```
+
+### Repairing a workload
+
+```bash
+tcpkg repair twincat.standard.xae --include-dependencies
 ```
 
 ### Downgrading a package
@@ -238,10 +254,17 @@ Example output:
 ```
 UseVS2017: Not configured
 UseVS2019: Not configured
-UseVS2022: Not configured
+UseVS2022: Using instance b0979586
+UseVS2026: Not configured
 UseTcXaeShell: True
 UseTcXaeShell64: True
 VerifySignatures: True
+TcPkgVersionOutput: True
+TrackInstalledFiles: False
+LogLevel: Information
+XarMode: KM
+DefaultTake: 500
+Proxy: Not configured
 ```
 
 ---
@@ -250,14 +273,8 @@ VerifySignatures: True
 
 Use the log file as a primary tool of fault finding. Logs can be found here: `%programdata%\Beckhoff\TcPkg\logs`.
 
-### Adjust logging level
-
-```bash
-# verbose
-tcpkg config set -n logLevel -v verbose
-# information
-tcpkg config set -n logLevel -v information
-```
+GUI
+`%localappdata%\Beckhoff\TwinCAT.Package.Manager.GUI\logs`
 
 If you are looking to fault find TwinCAT.XAE.MigrateCli, then note, the log files for this are stored here: `%programdata%\Beckhoff\TcMigrateCmd`.
 
