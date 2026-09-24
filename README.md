@@ -271,23 +271,20 @@ Proxy: Not configured
 
 ## Fault finding
 
-Use the log files as a primary tool of fault finding. Logs can be found here.
-
-CLI
-`C:\ProgramData\Beckhoff\TcPkg\logs`
+Use the log file as a primary tool of fault finding. Logs can be found here: `%programdata%\Beckhoff\TcPkg\logs`.
 
 GUI
 `%localappdata%\Beckhoff\TwinCAT.Package.Manager.GUI\logs`
 
-If you are looking to fault find TwinCAT.XAE.MigrateCli, then note, the log files for this are stored here.
-
-```C:\ProgramData\Beckhoff\TcMigrateCmd```
+If you are looking to fault find TwinCAT.XAE.MigrateCli, then note, the log files for this are stored here: `%programdata%\Beckhoff\TcMigrateCmd`.
 
 ---
 
 ## Remote control
 
 TcPkg supports controlling a remote instance of TcPkg over SSH, allowing you to relay both commands and package downloads to a connected IPC. This is especially useful when the IPC does not have internet access, but your engineering laptop does.
+
+An installation of Package Manager must exist on the remote IPC and be compatible with the version being used on the engineering side.
 
 ![remote](./docs/images/cli-remote-ssh.png)
 
@@ -303,6 +300,35 @@ tcpkg remote add -n MyIpc --host 169.254.165.127 --port 22 -u Administrator --in
 ```
 
 When prompted, enter the Administrator password and accept the SSH fingerprint.
+
+The details of a remote IPC connection are added to the main TcPkg configuration file `appsettings.json`, found in `%programdata%\Beckhoff\TcPkg`.
+
+e.g.:
+```bash
+"RemoteTargets": {
+    "MyIPC": {
+      "Host": "169.254.165.127",
+      "Port": 22,
+      "User": "Administrator",
+      "UserPassword": <encrypted>,
+      "InternetAccess": false,
+      "SHA256Fingerprint": <encrypted>,
+      "PrivateKeyFile": "",
+      "Passphrase": ""
+    }
+```
+
+To list configured remote connections:
+
+```bash
+tcpkg remote list
+```
+
+To edit a configured remote connection:
+
+```bash
+tcpkg remote edit <name> [options]
+```
 
 ### Installing a Package on the Remote IPC
 
@@ -348,12 +374,11 @@ ssh Administrator@169.254.165.127
 
 You’ll be prompted for the Administrator password.
 
-#### Errors Connection Errors
+#### Connection Errors
 
-The default password for a Beckhoff IPC is too small to be used for SSH. Therefore you must change your IPC's password first so something secure.
+The default password for a Beckhoff IPC is too small to be used for SSH. Therefore you must change your IPC's password first to something secure.
 
-You will be told `Permission denied, please try again.` and `The password does not meet the password policy requirements. Check the minimum password length, password complexity and
-password history requirements.` if your password is too short.
+If your password is too short, you will be told `Permission denied, please try again.` and `The password does not meet the password policy requirements. Check the minimum password length, password complexity and password history requirements.` 
 
 ---
 
@@ -363,11 +388,9 @@ password history requirements.` if your password is too short.
 
 Can also result in: Upgrade of TcPkg packages failed. ExitCode: 574.
 
-Delete ```"%localappdata%\Beckhoff\TwinCAT.Package.Manager.GUI\TcPkgUiSettings.json"``` 
-
-Delete ```%programdata%\Beckhoff\TcPkg\lookupcache.json```
-
-Restart
+- Delete `%localappdata%\Beckhoff\TwinCAT.Package.Manager.GUI\TcPkgUiSettings.json`
+- Delete `%programdata%\Beckhoff\TcPkg\lookupcache.json`
+- Restart
 
 ---
 
@@ -396,6 +419,8 @@ Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
 | **Set configuration options**       | `tcpkg config set -n [Option]`                             | Not applicable                                                    | Not applicable                                                |
 | **Unset configuration options**     | `tcpkg config unset -n [Option]`                           | Not applicable                                                    | Not applicable                                                |
 
+<details>
+
 - FreeBSD (pkg): Installing specific versions is not directly supported; use the [Ports Collection](https://docs.freebsd.org/en/books/handbook/ports/) or specify version if available.
 - Debian (apt): Specific versions can be installed with apt install [Package]=[Version] , if that version exists in your enabled repositories.
 - Package Sources/Feeds: Managing package sources in FreeBSD and Debian typically requires editing config files manually. Debian provides helper tools like
@@ -404,9 +429,3 @@ Source: [infosys.beckhoff.com](https://infosys.beckhoff.com/)
 </details>
 
 ---
-
-
-
-
-
-
